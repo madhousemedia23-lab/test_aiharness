@@ -19,6 +19,7 @@ Where new things go in this repository, what to name them, and what shape they s
 | `.ai/todo/` | Three Todo MD files only: `todo.md`, `someday.md`, `todo.archive.md`. | Anything else. |
 | `.ai/docs/` | **Baseline** documentation: blueprint, architecture, conventions, flows, glossary for the harness. | Product user guides (use root `docs/`). |
 | `.cursor/rules/` | Cursor `.mdc` rules. Each new protocol gets a matching pointer rule. | Markdown that isn't a Cursor rule. |
+| `.cursor/skills/<name>/` | Cursor **project** skills (`SKILL.md` per skill). Example: `project-startup` for greenfield / GitHub / first push. | Protocol text; secrets. |
 | `.claude/commands/` | Claude slash commands. | Rules; protocols. |
 | `.claude/skills/` | Claude skills. | Rules; protocols. |
 | `docs/` (repo root) | **Product / application** documentation — add when you have product code to document. | Baseline harness docs (those stay in `.ai/docs/`). |
@@ -135,7 +136,7 @@ Hook scripts live in `.claude/hooks/`. When adding a new hook that enforces a wo
 
 ## Changelog
 
-- 2026-05-12 — updated hooks table to show hard-blocking PreToolUse mechanism; added hooks/ scripts column {claude}
+- 2026-05-12 — directory rules: `.cursor/skills/<name>/` for Cursor project skills (e.g. `project-startup`) {cursor}
 - 2026-05-12 — added PostToolUse hook to current-hooks table; updated conventions to reflect docs+todo inline enforcement {claude}
 - 2026-05-12 — added "When you add a Claude hook" section; documents SessionStart hook pattern and enforcement rule {claude}
 - 2026-05-12 — routed **product** folders/file classes to root `docs/`; removed product `scripts/` rows from baseline tables {cursor}
@@ -145,4 +146,4 @@ Hook scripts live in `.claude/hooks/`. When adding a new hook that enforces a wo
 - 2026-05-12 — initial conventions doc (was under `docs/`) {cursor}
 
 ## Last touched
-{claude} 2026-05-12
+{cursor} 2026-05-12

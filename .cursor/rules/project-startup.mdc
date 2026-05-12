@@ -1,0 +1,16 @@
+---
+description: One-stop project startup — points to flow doc, skills, and ship commands (GitHub, push, docs).
+alwaysApply: true
+---
+
+# Project startup (one stop)
+
+For **greenfield setup**, **GitHub wiring**, **first push**, and **baseline vs product docs**, use the canonical flow (do not improvise a second checklist):
+
+1. **Read:** [`.ai/docs/flows/project-startup.md`](../../.ai/docs/flows/project-startup.md) — ordered steps 0–7 (charter → todos → `/github-setup` → push auth → `/git-push-verify` → doc classifier → skills map).
+2. **Cursor skill:** [`.cursor/skills/project-startup/SKILL.md`](../skills/project-startup/SKILL.md) — same intent; load when the user says *startup*, *greenfield*, *new repo*, *wire GitHub*, *first push*, *onboarding*.
+3. **Session checks** still run per [`project-init.mdc`](project-init.mdc) (todo files, `project.json`, push gate).
+
+**Slash commands (Claude Code):** `/project-startup`, `/github-setup`, `/git-push-verify` — definitions under `.claude/commands/`.
+
+**Protocols (never duplicate here):** [`.ai/protocols/TODO_MD_AGENT_PROTOCOL.md`](../../.ai/protocols/TODO_MD_AGENT_PROTOCOL.md), [`.ai/protocols/DOCS_MAINTENANCE_PROTOCOL.md`](../../.ai/protocols/DOCS_MAINTENANCE_PROTOCOL.md).

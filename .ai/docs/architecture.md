@@ -104,6 +104,7 @@ Every `.mdc` file with `alwaysApply: true` is loaded by Cursor on every turn.
 | `foundations.mdc` | Baseline engineering habits (small changes, no secrets, validate input). Also points at both protocols. |
 | `todomd-collaboration.mdc` | Pointer rule — defers to `TODO_MD_AGENT_PROTOCOL.md`. |
 | `docs-maintenance.mdc` | Pointer rule — defers to `DOCS_MAINTENANCE_PROTOCOL.md`. |
+| `project-startup.mdc` | **One-stop onboarding** — points to [`.ai/docs/flows/project-startup.md`](../../.ai/docs/flows/project-startup.md) + Cursor project skill; complements `project-init.mdc`. |
 | `project-init.mdc` | Session-start checks for Cursor: auto-creates missing `.ai/todo/*.md` files, prompts GitHub setup if `.ai/config/project.json` absent, gates agent-assisted HTTPS `git push` behind a PAT prompt unless `push_transport` is `ssh`. |
 
 **Pattern:** rules **never duplicate** protocol content. They state "read this file" and the golden rule in one paragraph. The protocol is always the maintained copy.
@@ -112,8 +113,11 @@ Every `.mdc` file with `alwaysApply: true` is loaded by Cursor on every turn.
 
 | Path | Role |
 |------|------|
-| `.claude/commands/github-setup.md` | `/github-setup` slash command — interactive prompt to connect a new or existing GitHub repo; writes `.ai/config/project.json`. |
-| `.claude/skills/` | Claude skills (none yet). |
+| `.claude/commands/project-startup.md` | `/project-startup` — routes to [`flows/project-startup.md`](flows/project-startup.md) (one-stop checklist). |
+| `.claude/commands/github-setup.md` | `/github-setup` — connect repo; writes `.ai/config/project.json`; HTTPS or SSH `origin`. |
+| `.claude/commands/git-push-verify.md` | `/git-push-verify` — stage, commit, push, fetch, verify on GitHub. |
+| `.claude/skills/project-startup/SKILL.md` | Claude **project-startup** skill — same triggers as Cursor twin under `.cursor/skills/`. |
+| `.claude/skills/` | Other skills (add as needed). |
 | `.claude/settings.local.json` | Claude Code permissions + hooks wiring. References the hook scripts. |
 | `.claude/hooks/pre-tool-check.sh` | PreToolUse hook: **blocks all tool calls** (except `Read`) until `AGENTS.md` has been read. |
 | `.claude/hooks/post-tool-read.sh` | PostToolUse hook (Read matcher): removes sentinel once `AGENTS.md` is confirmed read. |
@@ -224,6 +228,7 @@ See [`.ai/protocols/DOCS_MAINTENANCE_PROTOCOL.md`](../protocols/DOCS_MAINTENANCE
 
 - 2026-05-12 — added `project-init.mdc` Cursor rule: mirrors session-init and PAT-gate behaviour for Cursor (todo bootstrap, GitHub config check, push gate) {claude}
 - 2026-05-12 — added `session-init.sh` (todo bootstrap + GitHub config check), `pre-push-check.sh` (PAT gate), `/github-setup` command, and `.ai/config/project.json` schema to `.claude/` tables {claude}
+- 2026-05-12 — **One-stop startup:** [`flows/project-startup.md`](flows/project-startup.md); Cursor `project-startup.mdc` + `.cursor/skills/project-startup/`; Claude `/project-startup` + `project-startup` skill; expanded `.claude/commands` table {cursor}
 - 2026-05-12 — removed `Co-authored-by` from `/git-push-verify` + rule mirror; root commit message rewritten without trailer {cursor}
 - 2026-05-12 — `/git-push-verify` canonical commit message: append `Co-authored-by: Cursor <cursoragent@cursor.com>` when shipping from Cursor; Step 4 intro clarifies optional removal for non-Cursor commits {cursor}
 - 2026-05-12 — GitHub push: optional `github.push_transport` (`https`|`ssh`); `pre-push-check.sh` allows `git push` when SSH; `/github-setup` and `/git-push-verify` document SSH host-key verification + PAT HTTPS path {cursor}

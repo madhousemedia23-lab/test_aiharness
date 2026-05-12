@@ -11,6 +11,8 @@
 
 **Do not skip this. Do not defer it. Do not treat it as optional context.** These files contain the working agreements every action in this repo must follow. Skipping them has caused repeated rule violations. Read them first, every session, no exceptions.
 
+**Greenfield / one-stop startup (after the four reads above):** read [`.ai/docs/flows/project-startup.md`](.ai/docs/flows/project-startup.md) or run **`/project-startup`** — ordered path for todos, GitHub, push transport, ship, and docs surfaces.
+
 ---
 
 Claude Code reads this file at session start. **Do not duplicate** the project charter here — follow **`AGENTS.md`** in full (paths, todos, working agreements).
@@ -27,7 +29,7 @@ Replace with real commands once the project has a toolchain (for example: `pnpm 
 
 ## Changelog
 
-- 2026-05-12 — docs: point at mandatory doc-surface classifier before structural doc edits {cursor}
+- 2026-05-12 — greenfield pointer: read `flows/project-startup.md` or `/project-startup` after mandatory four-file block {cursor}
 - 2026-05-12 — docs bootstrap: classify harness vs product-only per DOCS_MAINTENANCE_PROTOCOL {cursor}
 
 ## Last touched

@@ -10,9 +10,10 @@ Describe in one short paragraph what this project is for once you know the stack
 
 | Layer | Path | Notes |
 |--------|------|--------|
+| Cursor project skills | `.cursor/skills/` | Optional **project** skills (e.g. `project-startup/SKILL.md`) — load for greenfield / GitHub / first-push workflows. |
 | Cursor rules (loaded by Cursor) | `.cursor/rules/` | `.mdc` with YAML frontmatter. These are what Cursor applies automatically. |
 | Claude Code project memory | `CLAUDE.md` | Short bootstrap only — **full charter is `AGENTS.md`**. |
-| Claude Code commands & skills | `.claude/commands/`, `.claude/skills/` | **Claude Code only** — slash commands, skills, hooks live here at repo root (not under `.ai/`). |
+| Claude Code commands & skills | `.claude/commands/`, `.claude/skills/` | **Claude Code only** — slash commands (`/project-startup`, `/github-setup`, `/git-push-verify`, …), **skills** (`project-startup`, …), hooks live here at repo root (not under `.ai/`). |
 | AI protocols, task board & baseline docs | `.ai/` | **`protocols/`** — canonical contracts (Todo MD, Docs Maintenance). **`todo/`** — Todo MD files. **`.ai/docs/`** — baseline human-readable blueprint (architecture, conventions, flows, glossary). Cursor `.mdc` files point at `protocols/`; do not duplicate. |
 | Product docs package (human-readable) | `docs/` (repo root) | **In use** — currently documents the `scripts/weather_time.py` CLI. API, domain, user guides for product code (`scripts/`, `src/`, …) live here per `.ai/protocols/DOCS_MAINTENANCE_PROTOCOL.md`. **Not** where baseline harness docs live (use `.ai/docs/`). |
 
@@ -30,6 +31,7 @@ List the real commands for this stack when you add one (install, lint, test, bui
 
 ## Changelog
 
+- 2026-05-12 — charter: `.cursor/skills/` row; Claude commands/skills list `/project-startup` + `project-startup` skill {cursor}
 - 2026-05-12 — removed `Co-authored-by` from `/git-push-verify` canonical commit template and Cursor rule mirror; root commit message rewritten without trailer {cursor}
 - 2026-05-12 — `/git-push-verify` canonical commit adds `Co-authored-by: Cursor <cursoragent@cursor.com>` (Git trailer); `.cursor/rules/git-push-verify.mdc` commit block aligned {cursor}
 - 2026-05-12 — GitHub: optional `push_transport` ssh|https; SSH `origin` + host-key verify; pre-push hook allows SSH pushes; /github-setup + /git-push-verify + project-init updated {cursor}

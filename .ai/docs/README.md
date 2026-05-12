@@ -42,6 +42,7 @@ flowchart TB
 |------|---------|----------------|
 | [`architecture.md`](architecture.md) | How is the baseline repo structured and how do the parts interconnect? | Any structural change to harness paths, protocols, rules, or baseline layout. |
 | [`conventions.md`](conventions.md) | Where do I put a new harness artifact, and what do I name it? | Naming or directory rules for `.ai/`, `.cursor/`, `.claude/` change. |
+| [`flows/project-startup.md`](flows/project-startup.md) | **One-stop** greenfield checklist: todos, GitHub, push auth, `/git-push-verify`, docs classifier, skills/rules map. | New clone, first GitHub push, or “full startup” request. |
 | [`flows/docs-surface-classifier.md`](flows/docs-surface-classifier.md) | Which doc tree do I edit — baseline `.ai/docs/` or product `docs/`? | **Every** structural change **before** other doc edits. |
 | [`flows/documentation-update-flow.md`](flows/documentation-update-flow.md) | What exact steps do I run after classification? | Any structural change that updates documentation. |
 | [`flows/`](flows/) | Other baseline workflow flow docs. | A new baseline workflow needs a dedicated flow doc. |
@@ -68,7 +69,7 @@ Baseline docs **do not** move into root `docs/`; they stay here under `.ai/docs/
 
 ## How to read this package
 
-1. Read the root [`README.md`](../../README.md) for the 60-second overview.
+1. Read the root [`README.md`](../../README.md) for the 60-second overview. If you are **greenfielding** this template (GitHub, first push, full harness path), read [`flows/project-startup.md`](flows/project-startup.md) next — then continue below.
 2. Read [`architecture.md`](architecture.md) for the full baseline picture.
 3. Skim [`conventions.md`](conventions.md) before adding harness files.
 4. Open [`flows/docs-surface-classifier.md`](flows/docs-surface-classifier.md) **first** whenever a structural change might touch docs — then [`flows/documentation-update-flow.md`](flows/documentation-update-flow.md).
@@ -86,6 +87,7 @@ Follow [`.ai/protocols/DOCS_MAINTENANCE_PROTOCOL.md`](../protocols/DOCS_MAINTENA
 
 ## Changelog
 
+- 2026-05-12 — Files table + “How to read”: [`flows/project-startup.md`](flows/project-startup.md) one-stop greenfield path {cursor}
 - 2026-05-12 — fixed example: new `src/` updates root `docs/` only (not baseline `.ai/docs/conventions.md`) {cursor}
 - 2026-05-12 — linked mandatory [docs-surface-classifier.md](flows/docs-surface-classifier.md) in index + diagram; clarified when `.ai/docs/` updates {cursor}
 - 2026-05-12 — moved baseline package from repo `docs/` to `.ai/docs/`; clarified split vs root `docs/` for product {cursor}

@@ -4,6 +4,7 @@
 
 ## TL;DR
 
+- **One-stop startup.** Open [`.ai/docs/flows/project-startup.md`](.ai/docs/flows/project-startup.md) for the full ordered checklist (GitHub `/github-setup`, ship `/git-push-verify`, HTTPS vs SSH, docs, skills). In Cursor, the always-on rule [`.cursor/rules/project-startup.mdc`](.cursor/rules/project-startup.mdc) + project skill [`.cursor/skills/project-startup/SKILL.md`](.cursor/skills/project-startup/SKILL.md) capture the same path. In Claude Code: `/project-startup`.
 - **Harness + baseline docs.** The **harness** (`.ai/protocols/`, `.ai/todo/`, `.cursor/`, `.claude/`, `AGENTS.md`, `CLAUDE.md`, root config) defines how agents and humans work. Human-readable **baseline** blueprint lives under **`.ai/docs/`** (with this `README.md` as the front door).
 - **Product docs.** Anything you ship as **application/library behavior** (`scripts/`, `src/`, …) is documented in **root [`docs/`](docs/README.md)** — full package: architecture, conventions, per-script pages. Rules: [`.ai/protocols/DOCS_MAINTENANCE_PROTOCOL.md`](.ai/protocols/DOCS_MAINTENANCE_PROTOCOL.md) (*Product-only vs harness-only*).
 - **One task board.** Active work lives in `.ai/todo/todo.md`; backlog in `someday.md`; archive in `todo.archive.md`. Rules in `.ai/protocols/TODO_MD_AGENT_PROTOCOL.md`.
@@ -57,8 +58,9 @@ flowchart TB
 | `.editorconfig` | Whitespace + charset baseline. | Humans |
 | `.gitignore` | Standard ignores (secrets, build, deps). | Humans |
 | `.vscode/settings.json` | Workspace settings (currently Todo MD paths). | Humans |
-| `.cursor/rules/` | Cursor `.mdc` rules, auto-loaded. `foundations.mdc` is the baseline; pointer rules defer to `.ai/protocols/`. | Humans + assistants |
-| `.claude/commands/`, `.claude/skills/` | Claude Code surface only. Slash commands + skills. | Humans + assistants |
+| `.cursor/rules/` | Cursor `.mdc` rules, auto-loaded. `foundations.mdc` is the baseline; **`project-startup.mdc`** is the one-stop onboarding pointer; other pointer rules defer to `.ai/protocols/`. | Humans + assistants |
+| `.cursor/skills/project-startup/` | Cursor **project skill** (`SKILL.md`) — greenfield / GitHub / first push / startup phrasing. | Humans + assistants |
+| `.claude/commands/`, `.claude/skills/` | Claude Code surface only. Slash commands include **`/project-startup`**, `/github-setup`, `/git-push-verify`; skills include **`project-startup`**. | Humans + assistants |
 | `.ai/protocols/` | Canonical agent + human contracts. **Single source of truth** for working agreements. | Humans + assistants |
 | `.ai/todo/` | Todo MD task board (`todo.md`, `someday.md`, `todo.archive.md`). | Humans + assistants (append/amend; never delete) |
 | `.ai/config/project.json` | GitHub connection for `/github-setup`: `repo_url` (HTTPS page URL), `username`, optional `push_transport` (`https` default, or `ssh` with `git@github.com:…` remote). Never stores PATs or keys. | Humans + assistants |
@@ -142,12 +144,13 @@ When the real product toolchain lands:
 | Glossary (baseline vs product docs) | [`.ai/docs/glossary.md`](.ai/docs/glossary.md) |
 | Product docs index | [`docs/README.md`](docs/README.md) |
 | Weather + time CLI (`scripts/weather_time.py`) | [`docs/scripts/weather-time.md`](docs/scripts/weather-time.md) |
+| One-stop startup / greenfield | [`.ai/docs/flows/project-startup.md`](.ai/docs/flows/project-startup.md) |
 | What's on the task board? | [`.ai/todo/todo.md`](.ai/todo/todo.md) |
 | GitHub remote + push transport (`/github-setup`) | [`.ai/config/project.json`](.ai/config/project.json) + [`.ai/docs/architecture.md`](.ai/docs/architecture.md) |
 
 ## Changelog
 
-- 2026-05-12 — removed `Co-authored-by` from `/git-push-verify` canonical commit template (root commit rewritten without trailer) {cursor}
+- 2026-05-12 — **One-stop startup:** [`.ai/docs/flows/project-startup.md`](.ai/docs/flows/project-startup.md); Cursor `project-startup.mdc` + `.cursor/skills/`; Claude `/project-startup` + skill; TL;DR + map + “Where to look” {cursor}
 - 2026-05-12 — `/git-push-verify` + `.cursor/rules/git-push-verify.mdc`: canonical commit includes `Co-authored-by: Cursor <cursoragent@cursor.com>` {cursor}
 - 2026-05-12 — "Where to look next": link to `.ai/config/project.json` + architecture for GitHub setup {cursor}
 - 2026-05-12 — repository map: `.ai/config/project.json` (GitHub `repo_url` / `push_transport` ssh|https); reminder that changelog + `Last touched` use **`{cursor}`** when Cursor last edited the file, **`{claude}`** when Claude Code did {cursor}

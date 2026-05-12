@@ -7,6 +7,8 @@ alwaysApply: true
 
 Run these three checks at the **start of every new conversation**, before doing any other work.
 
+**Full greenfield / onboarding path (ordered):** [`.ai/docs/flows/project-startup.md`](../../.ai/docs/flows/project-startup.md) — todos, GitHub, push transport, `/git-push-verify`, docs classifier, skills map. Cursor skill: [`.cursor/skills/project-startup/SKILL.md`](../skills/project-startup/SKILL.md).
+
 ## 1 — Ensure todo files exist
 
 Check whether all three task board files exist:

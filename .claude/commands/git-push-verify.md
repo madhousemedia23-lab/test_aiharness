@@ -13,6 +13,8 @@ Read `.ai/config/project.json`. Extract `github.repo_url`, `github.username`, an
 
 If the file is missing or `repo_url` is empty, tell the user to run `/github-setup` first and stop.
 
+For **full ordered onboarding** (todos → GitHub → push → ship → docs), also point the user at **`/project-startup`** or [`.ai/docs/flows/project-startup.md`](../../.ai/docs/flows/project-startup.md).
+
 Print: `Repo: <repo_url>` and `Push transport: <https|ssh>`
 
 ---
