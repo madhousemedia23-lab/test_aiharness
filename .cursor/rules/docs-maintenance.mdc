@@ -1,0 +1,12 @@
+---
+description: Docs maintenance — read canonical protocol in .ai/protocols when relevant
+alwaysApply: true
+---
+
+# Docs maintenance
+
+`.ai/protocols/DOCS_MAINTENANCE_PROTOCOL.md` — read and follow it whenever you create, rename, move, or remove a file or folder; add or change a feature, function, command, dependency, or external surface; or amend any working agreement. That file is the only maintained copy of the rules; do not restate them here.
+
+**Before any structural doc edit:** open and follow [`.ai/docs/flows/docs-surface-classifier.md`](../.ai/docs/flows/docs-surface-classifier.md) — write **Product-only** / **Harness-only** / **Both** plus the markdown paths you will touch. Do not open `.ai/docs/architecture.md` or `.ai/docs/conventions.md` for product-only script/app detail.
+
+**Golden rule:** classify **harness vs product-only** per the protocol. **Harness** changes → update `README.md` + relevant **`.ai/docs/`** in the **same change**. **Product-only** changes → update root **`docs/`** (and optionally **one** `README.md` map pointer) — **not** `.ai/docs/architecture.md` / `conventions.md` for script-level detail. Changelog line + `{cursor}` / `{claude}` on touched files. Never duplicate protocol rules into `.ai/docs/` or `docs/`; link to `.ai/protocols/*.md` instead.

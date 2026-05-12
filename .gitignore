@@ -1,0 +1,43 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs and temp
+*.log
+tmp/
+temp/
+.cache/
+
+# Common build outputs
+dist/
+build/
+out/
+target/
+*.egg-info/
+.eggs/
+
+# Dependencies
+node_modules/
+vendor/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Coverage and reports
+coverage/
+htmlcov/
+.coverage*
+
+# IDEs (uncomment if you do not want these committed)
+# .idea/

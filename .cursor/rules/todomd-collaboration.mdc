@@ -1,0 +1,8 @@
+---
+description: Todo MD — read canonical protocol in .ai/protocols when relevant
+alwaysApply: true
+---
+
+# Todo MD
+
+`.ai/protocols/TODO_MD_AGENT_PROTOCOL.md` — read and follow it whenever you touch `.ai/todo/` or the user asks about tasks / Todo MD. That file is the only maintained copy; do not restate its rules elsewhere. **Assistants never delete or remove todo lines** in the three `.ai/todo/*.md` files (human-only removals).

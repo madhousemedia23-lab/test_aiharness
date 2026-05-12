@@ -1,0 +1,14 @@
+---
+description: Baseline engineering habits for this repository
+alwaysApply: true
+---
+
+# Foundations
+
+- Change only what the task requires. Avoid drive-by refactors and unrelated files.
+- Before editing, read nearby code and match naming, types, imports, and comment style.
+- Do not add secrets, tokens, or production credentials. Prefer env vars and gitignored local files.
+- On boundaries that accept untrusted input (HTTP, CLI, files), validate and fail clearly.
+- When you introduce or fix non-trivial behavior, add or update tests in the same change if the repo already has a test runner.
+- **Todo MD (`.ai/todo/todo.md`, `someday.md`, `todo.archive.md`):** never delete or remove existing task lines or their `# ai:` notes as an assistant—only append or edit in place per `.ai/protocols/TODO_MD_AGENT_PROTOCOL.md`.
+- **Docs maintenance:** classify **harness vs product-only** per `.ai/protocols/DOCS_MAINTENANCE_PROTOCOL.md`. **Before** editing `.ai/docs/**/*.md` or `docs/**/*.md` for a structural change, follow [`.ai/docs/flows/docs-surface-classifier.md`](../../.ai/docs/flows/docs-surface-classifier.md). **Harness** structural changes → update `README.md` + relevant **`.ai/docs/`**. **Product-only** (`scripts/`, `src/`, …) → update root **`docs/`** (do not put product CLI tables in `.ai/docs/`). When both apply, touch both surfaces. Same change, Mermaid where useful, `{cursor}` / `{claude}` actor markers on touched docs.

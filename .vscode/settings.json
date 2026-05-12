@@ -1,0 +1,6 @@
+{
+  "todomd.activatePattern": ".ai/todo/{todo,someday,todo.archive}.md",
+  "todomd.defaultFile": "${workspaceFolder}/.ai/todo/todo.md",
+  "todomd.defaultArchiveFile": "${workspaceFolder}/.ai/todo/todo.archive.md",
+  "todomd.defaultSomedayFile": "${workspaceFolder}/.ai/todo/someday.md"
+}

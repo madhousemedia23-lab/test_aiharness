@@ -1,0 +1,54 @@
+---
+description: Stage all changes, commit with project achievement summary, push to origin, fetch and verify the commit landed on GitHub.
+alwaysApply: false
+---
+
+# git-push-verify — from Cursor
+
+Canonical definition: `.claude/commands/git-push-verify.md`
+
+**To run from Claude Code terminal:** type `/git-push-verify`
+
+**To run manually from Cursor's terminal panel:**
+
+### Stage
+```bash
+git add -A
+```
+
+### Commit (paste this whole block)
+```bash
+git commit -m "feat: project harness v1.0 — enforcement system, docs, and video explainer
+
+Harness infrastructure:
+- AGENTS.md charter, CLAUDE.md mandatory reads, .ai/protocols/ (2 protocols)
+- .cursor/rules/: 3 auto-loaded pointer rule files
+- .claude/hooks/: 4 enforcement scripts (session block, write gate, docs gate)
+
+Documentation: docs-surface-classifier, documentation-update-flow,
+.ai/docs/ baseline package, docs/ product package
+
+Product: harness-video/ (Remotion 8-scene explainer, ~120s, 1280x720)"
+```
+
+### Push (PAT required at runtime — never stored)
+```bash
+# Read repo URL from config
+REPO_URL=$(python3 -c "import json; d=json.load(open('.ai/config/project.json')); print(d['github']['repo_url'])")
+USERNAME=$(python3 -c "import json; d=json.load(open('.ai/config/project.json')); print(d['github']['username'])")
+# Type your PAT when prompted:
+read -s -p "GitHub PAT: " PAT
+REPO_PATH="${REPO_URL#https://github.com/}"
+git push "https://${USERNAME}:${PAT}@github.com/${REPO_PATH}.git" --set-upstream origin master
+unset PAT
+```
+
+### Fetch and verify
+```bash
+git fetch origin
+git log origin/master --oneline --graph -8
+git remote -v
+gh repo view 2>/dev/null || echo "Visit $(git remote get-url origin)"
+```
+
+Security: PAT is read into a shell variable, used once, then immediately unset. Never written to disk.

@@ -1,0 +1,78 @@
+---
+description: Project initialisation checks — todo files, GitHub config, and push authentication
+alwaysApply: true
+---
+
+# Project initialisation
+
+Run these three checks at the **start of every new conversation**, before doing any other work.
+
+## 1 — Ensure todo files exist
+
+Check whether all three task board files exist:
+
+- `.ai/todo/todo.md`
+- `.ai/todo/someday.md`
+- `.ai/todo/todo.archive.md`
+
+If any are missing, create them immediately with this content:
+
+| File | Opening line |
+|------|-------------|
+| `todo.md` | `# Active tasks` |
+| `someday.md` | `# Someday / backlog` |
+| `todo.archive.md` | `# Archive` |
+
+Tell the user which files were created. If all three exist, say nothing — do not announce it.
+
+## 2 — Check GitHub config
+
+Check whether `.ai/config/project.json` exists.
+
+- **If it exists:** read it silently and proceed.
+- **If it is missing:** tell the user:
+  > "GitHub is not configured for this project. Ask me to run the GitHub setup and I will walk you through connecting a new or existing repository."
+  Then wait — do not start any other task until the user either runs the setup or explicitly says to skip it.
+
+### GitHub setup flow (when user requests it)
+
+Ask in order:
+1. "Is this a **new** GitHub repository or an **existing** one?"
+2. **New:** "What would you like to name the repository?" + "What is your GitHub username?"
+   **Existing:** "Paste the full GitHub repository URL:" + "Confirm your GitHub username:"
+3. Write `.ai/config/project.json`:
+   ```json
+   {
+     "github": {
+       "repo_url": "https://github.com/<username>/<repo>",
+       "username": "<username>"
+     }
+   }
+   ```
+   Create `.ai/config/` if it does not exist.
+4. Run:
+   ```bash
+   git init 2>/dev/null || true
+   git remote get-url origin 2>/dev/null && git remote set-url origin <repo_url> || git remote add origin <repo_url>
+   ```
+5. Confirm to the user: config saved, remote set, password will be asked before every push.
+
+**Security rule:** never save a password, token, or PAT to any file — not `.ai/config/project.json`, not anywhere.
+
+## 3 — PAT required before every git push
+
+**Never run `git push` directly.** Before any push:
+
+1. Ask the user: "Please provide your GitHub PAT (Personal Access Token) to push now."
+2. Read `.ai/config/project.json` to get `username` and `repo_url`.
+3. Push using:
+   ```
+   git push https://<username>:<PAT>@<repo_url_without_https://>
+   ```
+   Example: if `repo_url` is `https://github.com/alice/my-project`, run:
+   ```
+   git push https://alice:<PAT>@github.com/alice/my-project.git
+   ```
+4. Do **not** save the PAT anywhere. Use it for this push only.
+
+If the user has not run GitHub setup yet (no `.ai/config/project.json`), complete check 2 first.
