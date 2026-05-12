@@ -30,6 +30,9 @@ List the real commands for this stack when you add one (install, lint, test, bui
 
 ## Changelog
 
+- 2026-05-12 — removed `Co-authored-by` from `/git-push-verify` canonical commit template and Cursor rule mirror; root commit message rewritten without trailer {cursor}
+- 2026-05-12 — `/git-push-verify` canonical commit adds `Co-authored-by: Cursor <cursoragent@cursor.com>` (Git trailer); `.cursor/rules/git-push-verify.mdc` commit block aligned {cursor}
+- 2026-05-12 — GitHub: optional `push_transport` ssh|https; SSH `origin` + host-key verify; pre-push hook allows SSH pushes; /github-setup + /git-push-verify + project-init updated {cursor}
 - 2026-05-12 — added /git-push-verify command (.claude/commands/) + .cursor/rules/git-push-verify.mdc: stage, commit achievement summary, push PAT, fetch, verify, show repo info {claude}
 - 2026-05-12 — added project-init.mdc Cursor rule: mirrors Claude Code hooks for Cursor (todo bootstrap, GitHub config check, PAT gate before push) {claude}
 - 2026-05-12 — added session-init hook (todo bootstrap + GitHub config check), pre-push-check hook (PAT gate), /github-setup command, and .ai/config/project.json for repo connection {claude}
@@ -38,4 +41,4 @@ List the real commands for this stack when you add one (install, lint, test, bui
 - 2026-05-12 — docs working agreement: harness vs product-only surfaces per DOCS_MAINTENANCE_PROTOCOL {cursor}
 
 ## Last touched
-{claude} 2026-05-12
+{cursor} 2026-05-12

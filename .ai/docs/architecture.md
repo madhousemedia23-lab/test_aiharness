@@ -104,7 +104,7 @@ Every `.mdc` file with `alwaysApply: true` is loaded by Cursor on every turn.
 | `foundations.mdc` | Baseline engineering habits (small changes, no secrets, validate input). Also points at both protocols. |
 | `todomd-collaboration.mdc` | Pointer rule — defers to `TODO_MD_AGENT_PROTOCOL.md`. |
 | `docs-maintenance.mdc` | Pointer rule — defers to `DOCS_MAINTENANCE_PROTOCOL.md`. |
-| `project-init.mdc` | Session-start checks for Cursor: auto-creates missing `.ai/todo/*.md` files, prompts GitHub setup if `.ai/config/project.json` absent, gates every `git push` behind a PAT prompt. |
+| `project-init.mdc` | Session-start checks for Cursor: auto-creates missing `.ai/todo/*.md` files, prompts GitHub setup if `.ai/config/project.json` absent, gates agent-assisted HTTPS `git push` behind a PAT prompt unless `push_transport` is `ssh`. |
 
 **Pattern:** rules **never duplicate** protocol content. They state "read this file" and the golden rule in one paragraph. The protocol is always the maintained copy.
 
@@ -118,7 +118,7 @@ Every `.mdc` file with `alwaysApply: true` is loaded by Cursor on every turn.
 | `.claude/hooks/pre-tool-check.sh` | PreToolUse hook: **blocks all tool calls** (except `Read`) until `AGENTS.md` has been read. |
 | `.claude/hooks/post-tool-read.sh` | PostToolUse hook (Read matcher): removes sentinel once `AGENTS.md` is confirmed read. |
 | `.claude/hooks/session-init.sh` | SessionStart hook: auto-creates missing `.ai/todo/*.md` files; warns if `.ai/config/project.json` is absent. |
-| `.claude/hooks/pre-push-check.sh` | PreToolUse hook (Bash matcher): **hard blocks `git push`** until user provides a PAT; PAT is never saved to disk. |
+| `.claude/hooks/pre-push-check.sh` | PreToolUse hook (Bash matcher): blocks `git push` when using HTTPS+PAT flow; **allows** `git push` when `github.push_transport` is `"ssh"` (SSH `origin`). |
 
 Claude Code reads these in addition to `CLAUDE.md`. Cursor ignores them.
 
@@ -129,7 +129,7 @@ Claude Code reads these in addition to `CLAUDE.md`. Cursor ignores them.
 | `SessionStart` | — | inline | Creates sentinel `/tmp/.claude_must_read_agents`; prints blocked-until-read message. |
 | `SessionStart` | — | `session-init.sh` | Creates missing todo files; prints GitHub setup reminder if `.ai/config/project.json` is absent. |
 | `PreToolUse` | `.*` (all tools) | `pre-tool-check.sh` | **Hard block** — outputs `{"decision":"block"}` JSON for any tool except `Read` while sentinel exists. |
-| `PreToolUse` | `Bash` | `pre-push-check.sh` | **Hard block** — intercepts any Bash command containing `git push`; asks Claude to get user's PAT first. |
+| `PreToolUse` | `Bash` | `pre-push-check.sh` | **HTTPS:** blocks `git push` until a PAT is used. **SSH:** no block when `push_transport` is `"ssh"`. |
 | `PostToolUse` | `Read` | `post-tool-read.sh` | Removes sentinel when `AGENTS.md` is confirmed read. All tools unblocked. |
 | `PostToolUse` | `Edit\|Write` | inline | Prints docs + todo checklist after every file edit. |
 
@@ -141,10 +141,13 @@ Non-sensitive connection details written by `/github-setup`. Never contains pass
 {
   "github": {
     "repo_url": "https://github.com/<username>/<repo>",
-    "username": "<username>"
+    "username": "<username>",
+    "push_transport": "https"
   }
 }
 ```
+
+`push_transport`: optional; `"https"` (default) or `"ssh"`. When `"ssh"`, use an SSH `origin` (`git@github.com:owner/repo.git`) and the pre-push hook does not require a PAT.
 
 ### `.ai/todo/` — task board
 
@@ -221,7 +224,9 @@ See [`.ai/protocols/DOCS_MAINTENANCE_PROTOCOL.md`](../protocols/DOCS_MAINTENANCE
 
 - 2026-05-12 — added `project-init.mdc` Cursor rule: mirrors session-init and PAT-gate behaviour for Cursor (todo bootstrap, GitHub config check, push gate) {claude}
 - 2026-05-12 — added `session-init.sh` (todo bootstrap + GitHub config check), `pre-push-check.sh` (PAT gate), `/github-setup` command, and `.ai/config/project.json` schema to `.claude/` tables {claude}
-- 2026-05-12 — replaced echo-only hooks with hard-blocking PreToolUse hook; added hooks/ dir; updated table to show sentinel mechanism {claude}
+- 2026-05-12 — removed `Co-authored-by` from `/git-push-verify` + rule mirror; root commit message rewritten without trailer {cursor}
+- 2026-05-12 — `/git-push-verify` canonical commit message: append `Co-authored-by: Cursor <cursoragent@cursor.com>` when shipping from Cursor; Step 4 intro clarifies optional removal for non-Cursor commits {cursor}
+- 2026-05-12 — GitHub push: optional `github.push_transport` (`https`|`ssh`); `pre-push-check.sh` allows `git push` when SSH; `/github-setup` and `/git-push-verify` document SSH host-key verification + PAT HTTPS path {cursor}
 - 2026-05-12 — added PostToolUse hook to `.claude/` table; forces docs + todo check after every edit inline {claude}
 - 2026-05-12 — added `.claude/settings.local.json` + SessionStart hook to `.claude/` table; documented mandatory-reads enforcement pattern {claude}
 - 2026-05-12 — clarified Layer 3 as **product** code + `docs/` package; removed harness-specific `scripts/` / `weather_init` detail; added product-only doc example {cursor}
@@ -229,4 +234,4 @@ See [`.ai/protocols/DOCS_MAINTENANCE_PROTOCOL.md`](../protocols/DOCS_MAINTENANCE
 - 2026-05-12 — initial architecture doc (was under `docs/`) {cursor}
 
 ## Last touched
-{claude} 2026-05-12
+{cursor} 2026-05-12

@@ -16,9 +16,11 @@ Canonical definition: `.claude/commands/git-push-verify.md`
 git add -A
 ```
 
-### Commit (paste this whole block)
+### Commit (paste this whole block — matches `/git-push-verify` Step 4)
+
 ```bash
-git commit -m "feat: project harness v1.0 — enforcement system, docs, and video explainer
+git commit -m "$(cat <<'COMMITMSG'
+feat: project harness v1.0 — enforcement system, docs, and video explainer
 
 Harness infrastructure:
 - AGENTS.md charter, CLAUDE.md mandatory reads, .ai/protocols/ (2 protocols)
@@ -28,27 +30,45 @@ Harness infrastructure:
 Documentation: docs-surface-classifier, documentation-update-flow,
 .ai/docs/ baseline package, docs/ product package
 
-Product: harness-video/ (Remotion 8-scene explainer, ~120s, 1280x720)"
+Tooling: /github-setup (HTTPS+PAT or SSH), /git-push-verify (stage, commit, push, verify)
+
+Product: harness-video/ (Remotion 8-scene explainer, ~120s, 1280x720)
+    Scenes 00–07: rules, hooks, docs tree, React example, todo lifecycle, dual-tool flow, file map
+COMMITMSG
+)"
 ```
 
-### Push (PAT required at runtime — never stored)
+### Push — choose transport (read `push_transport` from `.ai/config/project.json`)
+
+**SSH** (`"push_transport": "ssh"` — uses local keys; host-key prompt on first connect):
+
 ```bash
-# Read repo URL from config
+REPO_URL=$(python3 -c "import json; d=json.load(open('.ai/config/project.json')); print(d['github']['repo_url'])")
+REPO_PATH="${REPO_URL#https://github.com/}"
+git remote set-url origin "git@github.com:${REPO_PATH}.git"
+BRANCH=$(git branch --show-current)
+git push --set-upstream origin "$BRANCH"
+```
+
+**HTTPS** (default / `"push_transport": "https"` — PAT required at runtime, never stored):
+
+```bash
 REPO_URL=$(python3 -c "import json; d=json.load(open('.ai/config/project.json')); print(d['github']['repo_url'])")
 USERNAME=$(python3 -c "import json; d=json.load(open('.ai/config/project.json')); print(d['github']['username'])")
-# Type your PAT when prompted:
 read -s -p "GitHub PAT: " PAT
 REPO_PATH="${REPO_URL#https://github.com/}"
-git push "https://${USERNAME}:${PAT}@github.com/${REPO_PATH}.git" --set-upstream origin master
+BRANCH=$(git branch --show-current)
+git push "https://${USERNAME}:${PAT}@github.com/${REPO_PATH}.git" --set-upstream origin "$BRANCH"
 unset PAT
 ```
 
 ### Fetch and verify
 ```bash
 git fetch origin
-git log origin/master --oneline --graph -8
+BRANCH=$(git branch --show-current)
+git log "origin/${BRANCH}" --oneline --graph -8
 git remote -v
-gh repo view 2>/dev/null || echo "Visit $(git remote get-url origin)"
+gh repo view 2>/dev/null || python3 -c "import json; print(json.load(open('.ai/config/project.json'))['github']['repo_url'])"
 ```
 
-Security: PAT is read into a shell variable, used once, then immediately unset. Never written to disk.
+Security: PAT (HTTPS only) is read into a shell variable, used once, then immediately unset. Never written to disk. SSH uses your OS keychain / agent only.

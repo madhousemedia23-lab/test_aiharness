@@ -1,6 +1,7 @@
 {
   "github": {
     "repo_url": "https://github.com/madhousemedia23-lab/test_aiharness",
-    "username": "madhousemedia23-lab"
+    "username": "madhousemedia23-lab",
+    "push_transport": "ssh"
   }
 }

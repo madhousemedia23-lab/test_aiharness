@@ -61,6 +61,7 @@ flowchart TB
 | `.claude/commands/`, `.claude/skills/` | Claude Code surface only. Slash commands + skills. | Humans + assistants |
 | `.ai/protocols/` | Canonical agent + human contracts. **Single source of truth** for working agreements. | Humans + assistants |
 | `.ai/todo/` | Todo MD task board (`todo.md`, `someday.md`, `todo.archive.md`). | Humans + assistants (append/amend; never delete) |
+| `.ai/config/project.json` | GitHub connection for `/github-setup`: `repo_url` (HTTPS page URL), `username`, optional `push_transport` (`https` default, or `ssh` with `git@github.com:…` remote). Never stores PATs or keys. | Humans + assistants |
 | `.ai/docs/` | **Baseline** docs package — architecture, conventions, flows, glossary for the harness and repo layout. Ships with every project from this template. | Humans + assistants (per docs protocol) |
 | `docs/` | **Product** documentation package — [`README.md`](docs/README.md), [`architecture.md`](docs/architecture.md), [`conventions.md`](docs/conventions.md), [`scripts/`](docs/scripts/). | Humans + assistants (per docs protocol) |
 | `scripts/` | **Product** CLIs (not harness). Details: [`docs/scripts/weather-time.md`](docs/scripts/weather-time.md). | Humans + assistants |
@@ -142,9 +143,14 @@ When the real product toolchain lands:
 | Product docs index | [`docs/README.md`](docs/README.md) |
 | Weather + time CLI (`scripts/weather_time.py`) | [`docs/scripts/weather-time.md`](docs/scripts/weather-time.md) |
 | What's on the task board? | [`.ai/todo/todo.md`](.ai/todo/todo.md) |
+| GitHub remote + push transport (`/github-setup`) | [`.ai/config/project.json`](.ai/config/project.json) + [`.ai/docs/architecture.md`](.ai/docs/architecture.md) |
 
 ## Changelog
 
+- 2026-05-12 — removed `Co-authored-by` from `/git-push-verify` canonical commit template (root commit rewritten without trailer) {cursor}
+- 2026-05-12 — `/git-push-verify` + `.cursor/rules/git-push-verify.mdc`: canonical commit includes `Co-authored-by: Cursor <cursoragent@cursor.com>` {cursor}
+- 2026-05-12 — "Where to look next": link to `.ai/config/project.json` + architecture for GitHub setup {cursor}
+- 2026-05-12 — repository map: `.ai/config/project.json` (GitHub `repo_url` / `push_transport` ssh|https); reminder that changelog + `Last touched` use **`{cursor}`** when Cursor last edited the file, **`{claude}`** when Claude Code did {cursor}
 - 2026-05-12 — added golden rule #9: docs + todo in same change, enforced by PostToolUse hook {claude}
 - 2026-05-12 — added golden rule #8: mandatory session-start reads enforced via CLAUDE.md + SessionStart hook {claude}
 - 2026-05-12 — linked mandatory doc-surface classifier in "Where to look next" {cursor}
@@ -154,4 +160,4 @@ When the real product toolchain lands:
 - 2026-05-12 — initial blueprint README alongside docs scaffold and docs maintenance protocol {cursor}
 
 ## Last touched
-{claude} 2026-05-12
+{cursor} 2026-05-12

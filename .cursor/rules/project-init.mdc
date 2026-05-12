@@ -40,28 +40,39 @@ Ask in order:
 1. "Is this a **new** GitHub repository or an **existing** one?"
 2. **New:** "What would you like to name the repository?" + "What is your GitHub username?"
    **Existing:** "Paste the full GitHub repository URL:" + "Confirm your GitHub username:"
-3. Write `.ai/config/project.json`:
+3. Write `.ai/config/project.json` (HTTPS is default; add `"push_transport": "ssh"` if you will push over SSH):
    ```json
    {
      "github": {
        "repo_url": "https://github.com/<username>/<repo>",
-       "username": "<username>"
+       "username": "<username>",
+       "push_transport": "https"
      }
    }
    ```
+   Omit `push_transport` to default to HTTPS. Use `"ssh"` only when `origin` is `git@github.com:...` and you use SSH keys.
    Create `.ai/config/` if it does not exist.
-4. Run:
+4. Run (HTTPS remote — default):
    ```bash
    git init 2>/dev/null || true
    git remote get-url origin 2>/dev/null && git remote set-url origin <repo_url> || git remote add origin <repo_url>
    ```
-5. Confirm to the user: config saved, remote set, password will be asked before every push.
+   If using **SSH** for pushes, set `push_transport` to `"ssh"` and point `origin` at SSH instead:
+   ```bash
+   git remote set-url origin "git@github.com:<owner>/<repo>.git"
+   ```
+5. Confirm to the user: config saved, remote set. For HTTPS: a PAT will be asked before agent-assisted HTTPS pushes. For SSH: authentication uses local keys; first push may show a host-key fingerprint to verify against GitHub's docs.
 
 **Security rule:** never save a password, token, or PAT to any file — not `.ai/config/project.json`, not anywhere.
 
-## 3 — PAT required before every git push
+## 3 — Push authentication (HTTPS PAT vs SSH)
 
-**Never run `git push` directly.** Before any push:
+**If `github.push_transport` is `"ssh"`** (or you use an SSH `origin` URL with `push_transport` set accordingly in `project.json`):
+
+- Agents may run **`git push`** to `origin` without a PAT; authentication is your SSH key / agent.
+- First connection to `github.com` may print `SHA256:…` — compare to [GitHub's SSH key fingerprints](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints) before accepting.
+
+**Otherwise (HTTPS, default):** never run a raw `git push` to the HTTPS remote without embedding a user-provided PAT for that single command.
 
 1. Ask the user: "Please provide your GitHub PAT (Personal Access Token) to push now."
 2. Read `.ai/config/project.json` to get `username` and `repo_url`.
